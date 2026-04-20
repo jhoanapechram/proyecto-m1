@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Nómada · Pastelería Artesanal</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,700;1,9..144,900&family=Syne:wght@400;700;800&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+<style>
+:root {
+  --blue: #1A2FE8;
+  --blue-dark: #0D1DA0;
+  --blue-light: #E8ECFF;
+  --yellow: #FFD63A;
+  --yellow-dark: #E8B800;
+  --white: #FFFFFF;
+  --off-white: #F8F7F3;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Syne',sans-serif;background:var(--white);color:var(--blue-dark);overflow-x:hidden;cursor:none;}
+
+/* CURSOR */
+#cur-dot{position:fixed;width:12px;height:12px;background:var(--yellow);border-radius:50%;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);mix-blend-mode:multiply;transition:width .2s,height .2s;}
+#cur-ring{position:fixed;width:44px;height:44px;border:2px solid var(--blue);border-radius:50%;pointer-events:none;z-index:99998;transform:translate(-50%,-50%);transition:width .4s cubic-bezier(.2,.9,.4,1),height .4s cubic-bezier(.2,.9,.4,1),border-color .3s;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:1.4rem 3.5rem;background:var(--white);border-bottom:2.5px solid var(--blue);}
+.nav-logo{font-family:'Fraunces',serif;font-size:2rem;font-weight:900;color:var(--blue-dark);text-decoration:none;letter-spacing:-.03em;position:relative;}
+.nav-logo span{color:var(--yellow-dark);font-style:italic;}
+.nav-links{display:flex;gap:2.5rem;list-style:none;}
+.nav-links a{font-size:.8rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--blue-dark);text-decoration:none;padding:.3rem .6rem;border-radius:4px;transition:background .2s,color .2s;}
+.nav-links a:hover{background:var(--yellow);color:var(--blue-dark);}
+.nav-cta{background:var(--blue);color:var(--white);font-size:.75rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;padding:.75rem 2rem;border-radius:60px;text-decoration:none;transition:background .25s,transform .25s;cursor:none;}
+.nav-cta:hover{background:var(--blue-dark);transform:translateY(-3px);}
+
+/* HERO */
+.hero{min-height:100vh;padding-top:85px;background:var(--blue);display:grid;grid-template-columns:1fr 1fr;align-items:center;position:relative;overflow:hidden;}
+.hero-blob1{position:absolute;width:580px;height:580px;border-radius:50%;background:var(--yellow);top:-180px;right:-100px;z-index:0;animation:blobFloat 8s ease-in-out infinite;}
+.hero-blob2{position:absolute;width:280px;height:280px;border-radius:50%;background:rgba(255,255,255,.06);bottom:-60px;left:60px;z-index:0;animation:blobFloat 11s ease-in-out infinite reverse;}
+.hero-blob3{position:absolute;width:140px;height:140px;border-radius:50%;border:3px solid rgba(255,214,58,.25);top:30%;left:35%;z-index:0;animation:spinSlow 18s linear infinite;}
+@keyframes blobFloat{0%,100%{transform:translateY(0) scale(1);}50%{transform:translateY(-28px) scale(1.04);}}
+@keyframes spinSlow{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+
+.hero-left{padding:4rem 3rem 4rem 4rem;z-index:2;position:relative;}
+.hero-eyebrow{display:inline-block;font-size:.72rem;font-weight:800;letter-spacing:.25em;text-transform:uppercase;background:var(--yellow);color:var(--blue-dark);padding:.45rem 1.4rem;border-radius:60px;margin-bottom:2rem;animation:popIn .6s cubic-bezier(.36,1.5,.5,1) both;}
+@keyframes popIn{from{opacity:0;transform:scale(.5);}to{opacity:1;transform:scale(1);}}
+.hero-title{font-family:'Fraunces',serif;font-size:clamp(5rem,11vw,9.5rem);font-weight:900;line-height:.88;color:var(--white);margin-bottom:1.8rem;letter-spacing:-.03em;animation:slideUp .9s .1s cubic-bezier(.16,1,.3,1) both;}
+.hero-title em{font-style:italic;color:var(--yellow);display:block;}
+@keyframes slideUp{from{opacity:0;transform:translateY(50px);}to{opacity:1;transform:translateY(0);}}
+.hero-desc{font-size:1rem;font-weight:400;color:rgba(255,255,255,.7);max-width:440px;line-height:1.85;margin-bottom:2.5rem;animation:slideUp .9s .25s cubic-bezier(.16,1,.3,1) both;}
+.hero-btns{display:flex;gap:1rem;flex-wrap:wrap;animation:slideUp .9s .4s cubic-bezier(.16,1,.3,1) both;}
+
+.btn{display:inline-block;text-decoration:none;cursor:none;font-family:'Syne',sans-serif;font-weight:800;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;padding:.9rem 2.4rem;border-radius:60px;transition:transform .3s cubic-bezier(.2,.9,.4,1.2),box-shadow .3s;border:2.5px solid transparent;}
+.btn:hover{transform:translateY(-5px) rotate(-1deg);}
+.btn-yellow{background:var(--yellow);color:var(--blue-dark);border-color:var(--yellow);box-shadow:0 8px 24px rgba(255,214,58,.4);}
+.btn-yellow:hover{box-shadow:0 20px 40px rgba(255,214,58,.5);}
+.btn-white{background:var(--white);color:var(--blue-dark);border-color:var(--white);box-shadow:0 8px 30px rgba(0,0,0,.15);}
+.btn-white:hover{box-shadow:0 20px 40px rgba(0,0,0,.2);}
+.btn-outline{background:transparent;color:var(--white);border-color:rgba(255,255,255,.4);}
+.btn-outline:hover{border-color:var(--white);}
+
+.hero-right{z-index:2;position:relative;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:12px;padding:4rem 4rem 4rem 1rem;animation:slideUp .9s .3s cubic-bezier(.16,1,.3,1) both;}
+.hero-img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:12px;transition:transform .5s cubic-bezier(.2,.9,.4,1);border:3px solid rgba(255,255,255,.15);}
+.hero-img:nth-child(1){border-radius:80px 12px 12px 12px;}
+.hero-img:nth-child(2){border-radius:12px 80px 12px 12px;margin-top:40px;}
+.hero-img:nth-child(3){border-radius:12px 12px 12px 80px;margin-top:-40px;}
+.hero-img:nth-child(4){border-radius:12px 12px 80px 12px;}
+.hero-img:hover{transform:scale(1.05) rotate(1.5deg);}
+
+/* MARQUEE */
+.marquee-wrap{overflow:hidden;background:var(--yellow);border-top:2.5px solid var(--blue);border-bottom:2.5px solid var(--blue);}
+.marquee-track{display:inline-flex;gap:2rem;padding:1rem 0;animation:marquee 22s linear infinite;white-space:nowrap;}
+.marquee-track span{font-size:.8rem;font-weight:800;letter-spacing:.22em;text-transform:uppercase;color:var(--blue-dark);}
+.marquee-track .sep{color:var(--blue);font-size:1.2rem;font-weight:900;}
+@keyframes marquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+/* WAVES */
+.wave-divider{display:block;width:100%;overflow:hidden;line-height:0;margin-bottom:-2px;}
+.wave-divider svg{display:block;width:100%;}
+
+/* SECTION BASE */
+.s-pad{padding:6rem 4rem;}
+.s-inner{max-width:1300px;margin:0 auto;}
+.s-label{display:inline-block;font-size:.68rem;font-weight:800;letter-spacing:.28em;text-transform:uppercase;background:var(--blue);color:var(--white);padding:.35rem 1.2rem;border-radius:40px;margin-bottom:1.2rem;}
+.s-title{font-family:'Fraunces',serif;font-size:clamp(2.8rem,6vw,5rem);font-weight:900;line-height:.95;letter-spacing:-.03em;margin-bottom:1rem;color:var(--blue-dark);}
+.s-title em{font-style:italic;color:var(--blue);}
+.s-title .hl{background:var(--yellow);padding:0 .3em;border-radius:6px;display:inline-block;}
+.s-sub{font-size:.95rem;font-weight:400;color:rgba(13,29,160,.55);line-height:1.7;}
+
+/* MENU */
+#menu{background:var(--off-white);}
+.menu-top{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:2rem;margin-bottom:3rem;}
+.tabs{display:flex;gap:.5rem;flex-wrap:wrap;}
+.tab-btn{font-family:'Syne',sans-serif;font-size:.72rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;padding:.65rem 1.5rem;border-radius:60px;border:2px solid var(--blue);background:transparent;color:var(--blue);cursor:none;transition:all .25s cubic-bezier(.2,.9,.4,1.2);}
+.tab-btn:hover{background:var(--blue);color:var(--white);transform:translateY(-3px) scale(1.04);box-shadow:0 10px 24px rgba(26,47,232,.25);}
+.tab-btn.active{background:var(--yellow);color:var(--blue-dark);border-color:var(--yellow);box-shadow:0 10px 24px rgba(255,214,58,.35);transform:translateY(-3px);}
+.menu-grid{display:none;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:1.5rem;animation:popGrid .5s cubic-bezier(.2,.9,.4,1);}
+.menu-grid.active{display:grid;}
+@keyframes popGrid{from{opacity:0;transform:translateY(20px) scale(.98);}to{opacity:1;transform:translateY(0) scale(1);}}
+
+.product-card{background:var(--white);border-radius:24px;border:2.5px solid var(--blue);overflow:hidden;cursor:none;transition:transform .35s cubic-bezier(.2,.9,.4,1.2),box-shadow .35s;position:relative;}
+.product-card:hover{transform:translateY(-12px) rotate(.5deg);box-shadow:8px 16px 0 var(--blue);}
+.product-card:nth-child(even):hover{transform:translateY(-12px) rotate(-.5deg);box-shadow:-8px 16px 0 var(--blue);}
+.card-img-wrap{overflow:hidden;height:210px;position:relative;}
+.card-img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.2,.9,.4,1);}
+.product-card:hover .card-img{transform:scale(1.1);}
+.card-badge{position:absolute;top:12px;left:12px;font-size:.6rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;background:var(--yellow);color:var(--blue-dark);padding:.35rem 1rem;border-radius:40px;border:1.5px solid var(--blue-dark);}
+.card-body{padding:1.4rem 1.4rem 1.6rem;}
+.card-title{font-family:'Fraunces',serif;font-size:1.5rem;font-weight:700;line-height:1.1;margin-bottom:.4rem;color:var(--blue-dark);}
+.card-desc{font-size:.78rem;font-weight:400;color:rgba(13,29,160,.5);line-height:1.65;margin-bottom:1.2rem;}
+.card-footer{display:flex;justify-content:space-between;align-items:center;border-top:2px solid var(--blue-light);padding-top:1rem;}
+.price{font-family:'Fraunces',serif;font-size:2rem;font-weight:900;color:var(--blue);letter-spacing:-.02em;}
+.tag{font-size:.62rem;font-weight:800;letter-spacing:.13em;text-transform:uppercase;background:var(--yellow);color:var(--blue-dark);padding:.3rem .9rem;border-radius:30px;border:1.5px solid var(--yellow-dark);}
+
+/* SPECIALS */
+#specials{background:var(--blue);}
+#specials .s-title{color:var(--white);}
+#specials .s-title em{color:var(--yellow);}
+#specials .s-sub{color:rgba(255,255,255,.55);}
+#specials .s-label{background:var(--yellow);color:var(--blue-dark);}
+.specials-swiper{padding:.5rem 0 3.5rem;margin-top:3rem;}
+.special-card{background:var(--white);border-radius:24px;border:2.5px solid rgba(255,255,255,.15);overflow:hidden;cursor:none;transition:transform .35s cubic-bezier(.2,.9,.4,1.2);}
+.special-card:hover{transform:translateY(-10px) scale(1.01);}
+.special-img{width:100%;height:250px;object-fit:cover;display:block;}
+.special-info{padding:1.5rem;}
+.special-name{font-family:'Fraunces',serif;font-size:1.5rem;font-weight:700;color:var(--blue-dark);margin-bottom:.4rem;}
+.special-info p{font-size:.78rem;color:rgba(13,29,160,.5);line-height:1.65;margin-bottom:1rem;}
+.special-price{font-family:'Fraunces',serif;font-size:2.2rem;font-weight:900;color:var(--blue);}
+.swiper-pagination-bullet{background:rgba(255,255,255,.4)!important;}
+.swiper-pagination-bullet-active{background:var(--yellow)!important;}
+
+/* ABOUT */
+#about{background:var(--yellow);position:relative;overflow:hidden;}
+#about::before{content:'';position:absolute;width:500px;height:500px;border-radius:50%;background:rgba(26,47,232,.07);top:-150px;right:-150px;pointer-events:none;}
+#about .s-label{background:var(--blue-dark);}
+#about .s-title{color:var(--blue-dark);}
+#about .s-title em{color:var(--blue);}
+#about .s-sub{color:rgba(13,29,160,.65);}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;}
+.about-img-col{position:relative;}
+.about-img-main{width:100%;border-radius:24px;border:3px solid var(--blue-dark);display:block;box-shadow:12px 12px 0 var(--blue-dark);}
+.about-img-accent{position:absolute;bottom:-2rem;right:-2rem;width:46%;border-radius:16px;border:3px solid var(--blue-dark);box-shadow:6px 6px 0 var(--blue-dark);}
+.about-text p{font-size:.98rem;font-weight:400;color:rgba(13,29,160,.7);line-height:1.9;margin-bottom:1.4rem;}
+.pills{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.8rem;}
+.pill{font-size:.68rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;padding:.5rem 1.2rem;border-radius:40px;background:var(--white);color:var(--blue);border:2px solid var(--blue);transition:all .25s;cursor:default;}
+.pill:hover{background:var(--blue);color:var(--white);transform:translateY(-3px);box-shadow:0 8px 20px rgba(26,47,232,.25);}
+.about-stats{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:2.5rem;padding-top:2.5rem;border-top:2.5px solid rgba(13,29,160,.2);}
+.stat-num{display:block;font-family:'Fraunces',serif;font-size:3.5rem;font-weight:900;color:var(--blue);line-height:1;letter-spacing:-.03em;}
+.stat-lbl{display:block;font-size:.65rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:rgba(13,29,160,.5);margin-top:.3rem;}
+
+/* CONTACT */
+#contact{background:var(--blue-dark);}
+#contact .s-label{background:var(--yellow);color:var(--blue-dark);}
+#contact .s-title{color:var(--white);}
+#contact .s-title em{color:var(--yellow);}
+#contact .s-sub{color:rgba(255,255,255,.45);}
+.contact-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3.5rem;}
+.contact-card{background:rgba(255,255,255,.05);border:2px solid rgba(255,255,255,.1);border-radius:24px;padding:2.5rem 2rem;transition:all .35s cubic-bezier(.2,.9,.4,1.2);cursor:default;}
+.contact-card:hover{background:var(--yellow);border-color:var(--yellow);transform:translateY(-8px);box-shadow:0 20px 40px rgba(0,0,0,.2);}
+.contact-card:hover h3,.contact-card:hover p{color:var(--blue-dark);}
+.contact-icon{width:52px;height:52px;border-radius:50%;background:var(--yellow);display:flex;align-items:center;justify-content:center;margin-bottom:1.4rem;transition:background .3s;}
+.contact-card:hover .contact-icon{background:var(--blue);}
+.contact-icon svg{width:22px;height:22px;stroke:var(--blue-dark);fill:none;stroke-width:2;transition:stroke .3s;}
+.contact-card:hover .contact-icon svg{stroke:var(--white);}
+.contact-card h3{font-family:'Fraunces',serif;font-size:1.35rem;font-weight:700;color:var(--white);margin-bottom:.6rem;transition:color .3s;}
+.contact-card p{font-size:.82rem;font-weight:400;color:rgba(255,255,255,.5);line-height:1.75;transition:color .3s;}
+
+/* FOOTER */
+footer{background:var(--blue);border-top:3px solid var(--yellow);padding:2.5rem 4rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
+.footer-logo{font-family:'Fraunces',serif;font-size:2rem;font-weight:900;font-style:italic;color:var(--yellow);letter-spacing:-.02em;}
+footer p{font-size:.7rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.4);}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(32px);transition:opacity .75s cubic-bezier(.2,.9,.4,1),transform .75s cubic-bezier(.2,.9,.4,1);}
+.reveal.d1{transition-delay:.1s;}.reveal.d2{transition-delay:.2s;}.reveal.d3{transition-delay:.3s;}
+.reveal.visible{opacity:1;transform:none;}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  nav{padding:1.2rem 1.5rem;}
+  .nav-links{display:none;}
+  .nav-cta{display:none;}
+  .hero{grid-template-columns:1fr;}
+  .hero-right{display:none;}
+  .hero-left{padding:3rem 1.5rem;}
+  .s-pad{padding:4rem 1.5rem;}
+  .about-grid{grid-template-columns:1fr;gap:3rem;}
+  .about-img-accent{display:none;}
+  .contact-grid{grid-template-columns:1fr;}
+  footer{flex-direction:column;text-align:center;padding:2rem;}
+  #cur-dot,#cur-ring{display:none;}
+  body{cursor:auto;}
+  .menu-top{flex-direction:column;align-items:flex-start;}
+}
+</style>
+</head>
+<body>
+<div id="cur-dot"></div>
+<div id="cur-ring"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-logo">N<span>o</span>mada</a>
+  <ul class="nav-links">
+    <li><a href="#menu">Carta</a></li>
+    <li><a href="#specials">Especiales</a></li>
+    <li><a href="#about">Historia</a></li>
+    <li><a href="#contact">Visitanos</a></li>
+  </ul>
+  <a href="#menu" class="nav-cta">Ver carta</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-blob1"></div>
+  <div class="hero-blob2"></div>
+  <div class="hero-blob3"></div>
+  <div class="hero-left">
+    <div class="hero-eyebrow">Pasteleria artesanal · Merida</div>
+    <h1 class="hero-title">No<em>mada</em></h1>
+    <p class="hero-desc">Postres que cruzan fronteras. Frappes, brownies, cakes y helados artesanales con ingredientes reales y mucha alma.</p>
+    <div class="hero-btns">
+      <a href="#menu" class="btn btn-yellow">Explorar carta</a>
+      <a href="#specials" class="btn btn-white">Especiales</a>
+      <a href="#contact" class="btn btn-outline">Visitanos</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <img class="hero-img" src="https://images.unsplash.com/photo-1579954115545-a95591f28bfc?w=400&h=400&fit=crop" alt="frappe"/>
+    <img class="hero-img" src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400&h=400&fit=crop" alt="cake"/>
+    <img class="hero-img" src="https://images.unsplash.com/photo-1606312619070-d48b4c652a52?w=400&h=400&fit=crop" alt="brownie"/>
+    <img class="hero-img" src="https://images.unsplash.com/photo-1576506295286-5cda18df43e7?w=400&h=400&fit=crop" alt="gelato"/>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span>Frappes artesanales</span><span class="sep">&#10022;</span><span>Brownies premium</span><span class="sep">&#10022;</span><span>Cakes frescos</span><span class="sep">&#10022;</span><span>Gelatos italianos</span><span class="sep">&#10022;</span><span>Nomada pasteleria</span><span class="sep">&#10022;</span><span>Postres con alma</span><span class="sep">&#10022;</span>
+    <span>Frappes artesanales</span><span class="sep">&#10022;</span><span>Brownies premium</span><span class="sep">&#10022;</span><span>Cakes frescos</span><span class="sep">&#10022;</span><span>Gelatos italianos</span><span class="sep">&#10022;</span><span>Nomada pasteleria</span><span class="sep">&#10022;</span><span>Postres con alma</span><span class="sep">&#10022;</span>
+  </div>
+</div>
+
+<!-- WAVE 1 -->
+<div class="wave-divider" style="background:var(--off-white);"><svg viewBox="0 0 1440 60" preserveAspectRatio="none" style="height:60px;"><path d="M0,30 C360,60 1080,0 1440,30 L1440,0 L0,0 Z" fill="var(--yellow)"/></svg></div>
+
+<!-- MENU -->
+<section id="menu" class="s-pad" style="background:var(--off-white);">
+  <div class="s-inner">
+    <div class="menu-top">
+      <div>
+        <div class="s-label reveal">Nuestra propuesta</div>
+        <h2 class="s-title reveal d1">La <span class="hl">Carta</span></h2>
+        <p class="s-sub reveal d2">Ingredientes reales, sabores que inspiran</p>
+      </div>
+      <div class="tabs reveal d2">
+        <button class="tab-btn active" data-cat="frappes"><span>Frappes</span></button>
+        <button class="tab-btn" data-cat="brownies"><span>Brownies</span></button>
+        <button class="tab-btn" data-cat="cakes"><span>Cakes</span></button>
+        <button class="tab-btn" data-cat="helados"><span>Helados</span></button>
+        <button class="tab-btn" data-cat="extras"><span>Extras</span></button>
+      </div>
+    </div>
+    <div class="menu-grid active" id="frappes-grid">
+      <div class="product-card"><div class="card-img-wrap"><img class="card-img" src="https://images.unsplash.com/photo-1579954115545-a95591f28bfc?w=600&h=420&fit=crop" alt=""/></div><div class="card-badge">Popular</div><div class="card-body"><div class="card-title">Frappe Oreo Nomad</div><div class="card-desc">Crema de vainilla, Oreos trituradas, chantilly y chispas de chocolate.</div><div class="card-footer"><span class="price">$75</span><span class="tag">Grande</span></div></div></div>
+      <div class="product-card"><div class="card-img-wrap"><img class="card-img" src="https://images.unsplash.com/photo-1514517521153-1be72277b32f?w=600&h=420&fit=crop" alt=""/></div><div class="card-body"><div class="card-title">Frappe Blueberry</div><div class="card-desc">Moras azules frescas, leche, coulis de mora artesanal.</div><div class="card-footer"><span class="price">$80</span><span class="tag">Grande</span></div></div></div>
+      <div class="product-card"><div class="card-img-wrap"><img class="card-img" src="https://images.unsplash.com/photo-1584271854089-9bb3e5168e32?w=600&h=420&fit=crop" alt=""/></div><div class="card-badge">Nuevo</div><div class="card-body"><div class="card-title">Fresa Salvaje</div><div class="card-desc">Fresas naturales, chantilly artesanal y granola crujiente.</div><div class="card-footer"><span class="price">$78</span><span class="tag">Grande</span></div></div></div>
+      <div class="product-card"><div class="card-img-wrap"><img class="card-img" src="https://images.unsplash.com/photo-1568640347023-a616a30bc3bd?w=600&h=420&fit=crop" alt=""/></div><div class="card-body"><div class="card-title">Avellana Tostada</div><div class="card-desc">Crema de avellana italiana, leche, topping exclusivo de la casa.</div><div class="card-footer"><span class="price">$82</span><span class="tag">Grande</span></div></div></div>
+      <div class="product-card"><div class="card-img-wrap"><img class="card-img" src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=600&h=420&fit=crop" alt=""/></div><div class="card-body"><div class="card-title">Caramelo Salado</div><div class="card-desc">Toque de sal de mar, leche cremosa y chantilly crujiente.</div><div class="card-footer"><span class="price">$79</span><span class="tag">Grande</span></div></div></div>
+      <div class="product-card"><div class="card-img-wrap"><img class="card-img" src="https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=600&h=420&fit=crop" alt=""/></div><div class="card-body"><div class="card-title">Arcoiris</div><div class="card-desc">Capas de fresa, mango y limon con sprinkles de colores.</div><div class="card-footer"><span class="price">$85</span><span class="tag">Grande</span></div></div></div>
+    </div>
+    <div class="menu-grid" id="brownies-grid">
+      <div class="product-card"><div class="card-img-wrap"><img class="card-img" src="https://images.unsplash.com/photo-1606312619070-d48b4c652a52?w=600&h=420&fit=crop" alt=""/></div><div class="card-badge">Popular</div><div class="card-body"><div class="card-title">Brownie Clasico</div><div class="card-desc">Chocolate oscuro, humedo, servido tibio con helado de vainilla.</div><div class="card-footer"><span class="price">$65</span><span class="tag">Pieza</span></div></div></div>
+      <div class="product-card"><div class="card-img-wrap"><img class="card-img" src="https://images.unsplash.com/photo-1584723091739-62a2a3cf8b4b?w=600&h=420&fit=crop" alt=""/></div><div class="card-body"><div class="card-title">Mantequilla de Cacahuate</div><div class="card-desc">Swirl de cacahuate artesanal y chips de chocolate blanco.</div><div class="card-footer"><span class="price">$70</span><span class="tag">Pieza</span></div></div></div>
+      <div class="product-card"><div class="card-img-wrap"><img class="card-img" src="https://images.unsplash.com/photo-1570383526214-78c4699cb4ec?w=600&h=420&fit=crop" alt=""/></div><div class="card-badge">Nuevo</div><div class="card-body"><div class="card-title">Naranja y Chocolate</div><div class="card-desc">Zest de naranja fresca y ganache de chocolate amargo.</div><div class="card-footer"><span class="price">$72</span><span class="tag">Pieza</span></div></div></div>
+      <div class="product-card"><div class="card-img-wrap"><img class="card-img" src="https://images.unsplash.com/photo-1614707267537-b85aaf00c4b7?w=600&h=420&fit=crop" alt=""/></div><div class="card-body"><div class="card-title">Confeti</div><div class="card-desc">Base de vainilla con sprinkles de colores y frosting.</div><div class="card-footer"><span class="price">$68</span><span class="tag">Pieza</span></div></div></div>
+    </div>
+    <div class="menu-grid" id="cakes-grid">
+      <div class="product-card"><div class="card-img-wrap"><img class="card-img" src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=600&h=420&fit=crop" alt=""/></div><div class="card-badge">Top</div><div class="card-body"><div class="card-title">Cake de Fresas</div><div class="card-desc">Bizcocho de vainilla, chantilly artesanal y fresas frescas.</div><div class="card-footer"><span class="price">$320</span><span class="tag">Porcion</span></div></div></div>
+      <div class="product-card"><div class="card-img-wrap"><img class="card-img" src="https://images.unsplash.com/photo-1606890658317-7d58590c4e1c?w=600&h=420&fit=crop" alt=""/></div><div class="card-body"><div class="card-title">Triple Chocolate</div><div class="card-desc">Tres capas de chocolate oscuro, leche y blanco con ganache.</div><div class="card-footer"><span class="price">$350</span><span class="tag">Porcion</span></div></div></div>
+    </div>
+    <div class="menu-grid" id="helados-grid">
+      <div class="product-card"><div class="card-img-wrap"><img class="card-img" src="https://images.unsplash.com/photo-1576506295286-5cda18df43e7?w=600&h=420&fit=crop" alt=""/></div><div class="card-badge">Popular</div><div class="card-body"><div class="card-title">Gelato de Pistache</div><div class="card-desc">Gelato italiano con trozos de pistache tostado.</div><div class="card-footer"><span class="price">$55</span><span class="tag">Copa</span></div></div></div>
+      <div class="product-card"><div class="card-img-wrap"><img class="card-img" src="https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=600&h=420&fit=crop" alt=""/></div><div class="card-body"><div class="card-title">Sundae Fresa Boom</div><div class="card-desc">Dos bolas de fresa artesanal, chantilly y coulis casero.</div><div class="card-footer"><span class="price">$70</span><span class="tag">Copa</span></div></div></div>
+    </div>
+    <div class="menu-grid" id="extras-grid">
+      <div class="product-card"><div class="card-img-wrap"><img class="card-img" src="https://images.unsplash.com/photo-1583845112203-2932992f56e5?w=600&h=420&fit=crop" alt=""/></div><div class="card-badge">Top</div><div class="card-body"><div class="card-title">Waffles Nomada</div><div class="card-desc">Waffles belgas con Nutella artesanal y fresas frescas.</div><div class="card-footer"><span class="price">$85</span><span class="tag">Plato</span></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- WAVE 2 -->
+<div class="wave-divider" style="background:var(--blue);"><svg viewBox="0 0 1440 60" preserveAspectRatio="none" style="height:60px;"><path d="M0,0 C360,60 1080,0 1440,60 L1440,0 L0,0 Z" fill="var(--off-white)"/></svg></div>
+
+<!-- SPECIALS -->
+<section id="specials" class="s-pad">
+  <div class="s-inner">
+    <div class="s-label reveal">Edicion limitada</div>
+    <h2 class="s-title reveal d1">Especiales <em>Nomadas</em></h2>
+    <p class="s-sub reveal d2">Creaciones efimeras, sabor eterno</p>
+    <div class="swiper specials-swiper reveal d2">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide"><div class="special-card"><img class="special-img" src="https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=700&h=380&fit=crop" alt=""/><div class="special-info"><div class="special-name">Cake Pinata</div><p>Explota de dulces, sprinkles y sorpresas en cada capa.</p><div class="special-price">$480</div></div></div></div>
+        <div class="swiper-slide"><div class="special-card"><img class="special-img" src="https://images.unsplash.com/photo-1579954115545-a95591f28bfc?w=700&h=380&fit=crop" alt=""/><div class="special-info"><div class="special-name">Frappe Volcan</div><p>Nucleo de brownie tibio que derrite todo desde adentro.</p><div class="special-price">$99</div></div></div></div>
+        <div class="swiper-slide"><div class="special-card"><img class="special-img" src="https://images.unsplash.com/photo-1587314168485-3236d6710814?w=700&h=380&fit=crop" alt=""/><div class="special-info"><div class="special-name">Sundae Total</div><p>Cuatro bolas, tres salsas, waffle belga y todo el caos.</p><div class="special-price">$195</div></div></div></div>
+      </div>
+      <div class="swiper-pagination"></div>
+    </div>
+  </div>
+</section>
+
+<!-- WAVE 3 -->
+<div class="wave-divider" style="background:var(--yellow);"><svg viewBox="0 0 1440 60" preserveAspectRatio="none" style="height:60px;"><path d="M0,60 C360,0 1080,60 1440,0 L1440,0 L0,0 Z" fill="var(--blue)"/></svg></div>
+
+<!-- ABOUT -->
+<section id="about" class="s-pad" style="background:var(--yellow);">
+  <div class="s-inner">
+    <div class="about-grid">
+      <div class="about-img-col reveal">
+        <img class="about-img-main" src="https://images.unsplash.com/photo-1504754524776-8f4f37790ca0?w=700&h=780&fit=crop" alt=""/>
+        <img class="about-img-accent" src="https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?w=400&fit=crop" alt=""/>
+      </div>
+      <div class="about-text">
+        <div class="s-label reveal">Nuestra historia</div>
+        <h2 class="s-title reveal d1">Filosofia <em>Nomada</em></h2>
+        <p class="reveal d2">Sabores que cruzan fronteras, ingredientes eticos. Nomada nacio de la conviccion de que cada postre debe contar una historia — la del lugar de donde viene, la de quien lo elabora, la de quien lo disfruta.</p>
+        <p class="reveal d3">Trabajamos solo con ingredientes reales, recetas propias y una obsesion por cada detalle.</p>
+        <div class="pills reveal d2">
+          <span class="pill">Ingredientes reales</span>
+          <span class="pill">Recetas propias</span>
+          <span class="pill">Estetica unica</span>
+          <span class="pill">Calidez artesanal</span>
+        </div>
+        <div class="about-stats reveal d3">
+          <div><span class="stat-num">4+</span><span class="stat-lbl">Anos de experiencia</span></div>
+          <div><span class="stat-num">30+</span><span class="stat-lbl">Creaciones en carta</span></div>
+          <div><span class="stat-num">100%</span><span class="stat-lbl">Natural</span></div>
+          <div><span class="stat-num">5K+</span><span class="stat-lbl">Clientes felices</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WAVE 4 -->
+<div class="wave-divider" style="background:var(--blue-dark);"><svg viewBox="0 0 1440 60" preserveAspectRatio="none" style="height:60px;"><path d="M0,0 C480,60 960,0 1440,60 L1440,0 L0,0 Z" fill="var(--yellow)"/></svg></div>
+
+<!-- CONTACT -->
+<section id="contact" class="s-pad" style="background:var(--blue-dark);">
+  <div class="s-inner">
+    <div class="s-label reveal">Encontranos</div>
+    <h2 class="s-title reveal d1">Tu <em>rincon</em> favorito</h2>
+    <p class="s-sub reveal d2">Te esperamos con los postres mas inspiradores de la ciudad</p>
+    <div class="contact-grid">
+      <div class="contact-card reveal d1">
+        <div class="contact-icon"><svg viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg></div>
+        <h3>Ubicacion</h3>
+        <p>Centro Historico<br/>Calle de los Sabores 123<br/>Merida, Yucatan</p>
+      </div>
+      <div class="contact-card reveal d2">
+        <div class="contact-icon"><svg viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+        <h3>Horario</h3>
+        <p>Lunes a Viernes<br/>11:00 am – 9:00 pm<br/>Sab y Dom 10:00 am – 10:00 pm</p>
+      </div>
+      <div class="contact-card reveal d3">
+        <div class="contact-icon"><svg viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></div>
+        <h3>Redes sociales</h3>
+        <p>@nomada.pasteleria<br/>Instagram · TikTok · Facebook</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Nomada</div>
+  <p>Pasteleria artesanal · Merida, Yucatan</p>
+  <p>© 2025 · Hecho con dedicacion</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+const lenis=new Lenis({lerp:.08,smoothWheel:true});
+(function raf(t){lenis.raf(t);requestAnimationFrame(raf);})(0);
+
+const dot=document.getElementById('cur-dot'),ring=document.getElementById('cur-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';});
+(function animRing(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing);})();
+document.querySelectorAll('a,button,.product-card,.special-card,.contact-card').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{ring.style.width='64px';ring.style.height='64px';ring.style.borderColor='var(--yellow)';});
+  el.addEventListener('mouseleave',()=>{ring.style.width='44px';ring.style.height='44px';ring.style.borderColor='var(--blue)';});
+});
+
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.menu-grid').forEach(g=>g.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.cat+'-grid').classList.add('active');
+  });
+});
+
+new Swiper('.specials-swiper',{slidesPerView:1,spaceBetween:20,pagination:{el:'.swiper-pagination',clickable:true},breakpoints:{768:{slidesPerView:2},1100:{slidesPerView:3}}});
+
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
